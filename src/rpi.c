@@ -35,7 +35,6 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
     return ltag;
 }
 
-
 void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
     uint16_t _nhosts;
@@ -52,7 +51,6 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
     destroy_session( lctx );
     exit( RPI_OK );
 }
-
 
 int rpi_packet( libnet_t *lctx, struct rpi_conf *conf,
                        char *errbuf )
@@ -127,7 +125,6 @@ void send_packet( libnet_t *lctx, struct rpi_conf *conf,
     }
     libnet_clear_packet( lctx );
 }
-
 
 void destroy_session( libnet_t *lctx )
 {
