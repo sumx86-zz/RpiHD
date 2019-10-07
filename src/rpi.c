@@ -35,7 +35,6 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
     return ltag;
 }
 
-
 void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
     uint16_t _nhosts;
@@ -52,7 +51,6 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
     destroy_session( lctx );
     exit( RPI_OK );
 }
-
 
 int rpi_packet( libnet_t *lctx, struct rpi_conf *conf,
                        char *errbuf )
@@ -132,5 +130,9 @@ void destroy_session( libnet_t *lctx )
 {
     libnet_clear_packet( lctx );
     libnet_destroy( lctx );
+<<<<<<< HEAD
     _rlog( RPI_LOG_INFO, "Session closed!\n" );
 }
+=======
+}
+>>>>>>> c3cf5db31ae80bedcb0d169858c9c066d80b9677
