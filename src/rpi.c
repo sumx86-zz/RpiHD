@@ -128,9 +128,9 @@ void send_packet( libnet_t *lctx, struct rpi_conf *conf,
     libnet_clear_packet( lctx );
 }
 
-
 void destroy_session( libnet_t *lctx )
 {
     libnet_clear_packet( lctx );
     libnet_destroy( lctx );
+    _rlog( RPI_LOG_INFO, "Session closed!\n" );
 }
