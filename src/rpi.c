@@ -46,7 +46,7 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 
     for ( uint16_t i = 0 ; i < _nhosts ; i++ ) {
         send_packet( lctx, conf, _net_off++ );
-        sleep( 1 );
+        mssleep( 0.3 );
     }
     destroy_session( lctx );
     exit( RPI_OK );
@@ -100,7 +100,7 @@ int rpi_packet( libnet_t *lctx, struct rpi_conf *conf,
 
 /* build and inject the packet */
 void send_packet( libnet_t *lctx, struct rpi_conf *conf,
-                 uint32_t _net_off )
+                  uint32_t _net_off )
 {
     int arp_stat;
     conf->dst_ip = long2ip( _net_off );
@@ -130,9 +130,5 @@ void destroy_session( libnet_t *lctx )
 {
     libnet_clear_packet( lctx );
     libnet_destroy( lctx );
-<<<<<<< HEAD
     _rlog( RPI_LOG_INFO, "Session closed!\n" );
 }
-=======
-}
->>>>>>> c3cf5db31ae80bedcb0d169858c9c066d80b9677
