@@ -46,6 +46,7 @@ int main( int argc, char **argv )
     }
 
     _rlog( RPI_LOG_INFO, "RPI initialized successfully!\n" );
+    rpi_start_receiver( conf );
     rpi_arp_initiate( ltag, conf );
     return 0;
 }

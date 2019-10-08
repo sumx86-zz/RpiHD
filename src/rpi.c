@@ -35,6 +35,19 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
     return ltag;
 }
 
+/* start the arp receiving thread */
+void rpi_start_receiver( struct rpi_conf *conf )
+{
+    pthread_t thread;
+    int err;
+
+    err = pthread_create( &thread, NULL, rpi_arp_sniffer, (void *) conf );
+    if ( err ) {
+        _rlog( RPI_LOG_INFO, "Can't start arp sniffer!\n" );
+    }
+}
+
+
 void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
     uint16_t _nhosts;
@@ -51,6 +64,7 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
     destroy_session( lctx );
     exit( RPI_OK );
 }
+
 
 int rpi_packet( libnet_t *lctx, struct rpi_conf *conf,
                        char *errbuf )

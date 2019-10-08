@@ -19,11 +19,13 @@ void       rpi_usage( char *prog );
 void       destroy_session( libnet_t *lctx );
 void       rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf );
 void       send_packet( libnet_t *lctx, struct rpi_conf *conf, uint32_t _net_off );
+void       rpi_start_receiver( struct rpi_conf *conf );
 int        rpi_packet( libnet_t *lctx, struct rpi_conf *conf, char *errbuf );
 
 // external functions here
 extern void init_log( void );
 extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
+extern void * rpi_arp_sniffer( void *conf );
 
 #endif

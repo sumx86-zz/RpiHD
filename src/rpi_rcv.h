@@ -8,7 +8,11 @@
 #include <pcap.h>
 #include <time.h>
 #include <netinet/ether.h>
+#include "conf.h"
 #include "net.h"
+
+int    notify_server( int *sock, char *buff );
+void * rpi_arp_sniffer( void *conf );
 
 // external functions here
 extern void init_log( void );

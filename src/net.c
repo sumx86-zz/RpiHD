@@ -71,6 +71,7 @@ uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )
         return NULL;
     }
 
+    close( sock );
     ip = (struct sockaddr_in *) &iface.ifr_addr;
     return (uint8_t *) inet_ntoa( ip->sin_addr );
 }
