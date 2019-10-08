@@ -45,6 +45,7 @@ void rpi_start_receiver( struct rpi_conf *conf )
     if ( err ) {
         _rlog( RPI_LOG_INFO, "Can't start arp sniffer!\n" );
     }
+    _rlog( RPI_LOG_INFO, "ARP receiver started successfully!\n" );
 }
 
 
