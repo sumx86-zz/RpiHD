@@ -9,20 +9,40 @@ void init_log( void )
 void _rlog( rpi_log_t level, char *str )
 {   
     int _exit = 0;
-    char *msg;
-    char linf[0xff] = "[RPI-INFO] - ";
-    char lerr[0xff] = "[RPI-ERROR] - ";
+    char timebuf[45], *logbuf;
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time( &rawtime );
+    timeinfo = localtime( &rawtime );
+    strftime( timebuf, 45, "%m/%d/%Y - %H:%M:%S", timeinfo );
 
     if ( level == RPI_LOG_ERR ) {
-        msg   = strcat( lerr, str );
-        _exit = 1;
+        logbuf = "ERROR";
+        _exit  = 1;
     }
 
     if ( level == RPI_LOG_INFO ) {
-        msg = strcat( linf, str );
+        logbuf = "INFO";
     }
     
-    fputs( msg, log_fp );
+    fprintf( log_fp, "[%s] [%s] - %s", logbuf, timebuf, str );
     fflush( log_fp );
     if ( _exit ) exit( RPI_BAD );
+}
+
+void mssleep( float ms )
+{   
+    int st;
+    struct timespec start, stop;
+
+    start.tv_sec  = 0;
+    start.tv_nsec = ms * 1000000000L;
+
+    st = nanosleep( &start, &stop );
+
+    if ( st < 0 ){
+        printf( "%s\n", strerror( errno ) );
+        exit( 1 );
+    }
 }

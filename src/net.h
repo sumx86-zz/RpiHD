@@ -6,11 +6,13 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <net/if.h>
 #include <netinet/in.h>
 #include <errno.h>
 #include "conf.h"
 
+int sockfd;
 
 int       normalize_ip( uint8_t *ip, uint8_t *dst );
 uint8_t * long2ip( uint32_t long_ip );

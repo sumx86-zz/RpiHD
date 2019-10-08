@@ -13,6 +13,7 @@
 
 
 void init_log( void );
+void mssleep( float ms );
 void _rlog( rpi_log_t level, char *str );
 
 #endif

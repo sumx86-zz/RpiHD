@@ -6,6 +6,7 @@ void rpi_usage( char *prog )
     fprintf( stderr, "-d [DEVICE]\n" );
     fprintf( stderr, "-s [SERVER]\n" );
     fprintf( stderr, "-p [PORT]\n" );
+    fprintf( stderr, "-t [ARP REQUEST TIME DELAY]\n" );
     exit( RPI_BAD );
 }
 
@@ -15,7 +16,12 @@ int main( int argc, char **argv )
     int opt;
     struct rpi_conf c, *conf = &c;
 
-    while ( (opt = getopt( argc, argv, "d:s:p:" )) != -1 )
+    conf->device = NULL;
+    conf->server = NULL;
+    conf->port   = NULL;
+    conf->delay  = NULL;
+
+    while ( (opt = getopt( argc, argv, "d:s:p:t:" )) != -1 )
     {
         switch ( opt ) {
             case 'd':
@@ -24,12 +30,14 @@ int main( int argc, char **argv )
                 conf->server = optarg; break;
             case 'p':
                 conf->port   = optarg; break;
+            case 't':
+                conf->delay  = optarg; break;
             default:
                 rpi_usage( argv[0] );
         }
     }
 
-    if ( !conf->device || !conf->server || !conf->port ){
+    if ( !conf->device || !conf->server || !conf->port || !conf->delay ){
         rpi_usage( argv[0] );
     }
 
