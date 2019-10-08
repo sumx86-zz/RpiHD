@@ -13,8 +13,6 @@
 #include <errno.h>
 #include "conf.h"
 
-int sockfd;
-
 int       normalize_ip( uint8_t *ip, uint8_t *dst );
 uint8_t * long2ip( uint32_t long_ip );
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf );
