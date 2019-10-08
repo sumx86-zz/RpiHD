@@ -8,7 +8,9 @@
 #include <sys/ioctl.h>
 #include <getopt.h>
 #include <libnet.h>
+#include <time.h>
 #include <netinet/ether.h>
+#include <pthread.h>
 #include "conf.h"
 #include "net.h"
 
@@ -19,8 +21,9 @@ void       rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf );
 void       send_packet( libnet_t *lctx, struct rpi_conf *conf, uint32_t _net_off );
 int        rpi_packet( libnet_t *lctx, struct rpi_conf *conf, char *errbuf );
 
+// external functions here
 extern void init_log( void );
+extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
-// external logging functions here
 
 #endif
