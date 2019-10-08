@@ -17,6 +17,7 @@ struct rpi_conf
     char *device;
     char *server;
     char *port;
+    char *delay;
     uint8_t ip[4];
     uint8_t hw[6];
     uint8_t msk[4];
