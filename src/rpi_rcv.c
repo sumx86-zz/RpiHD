@@ -26,28 +26,33 @@ int init_sock( char *errbuf )
     return sock;
 }
 
-
 void packet_handler( u_char *args, const struct pcap_pkthdr *header, 
                      const u_char *packet )
 {
     uint16_t ether_type;
-    struct rpi_eth_hdr *eth_hdr;
-    struct rpi_arp_hdr *arp_hdr;
+    struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
+    struct rpi_arp_hdr *arp_hdr = (struct rpi_arp_hdr *) (packet + 14);
+    struct rpi_conf *conf       = (struct rpi_conf *) args;
 
-    eth_hdr    = (struct rpi_eth_hdr *) packet;
-    arp_hdr    = (struct rpi_arp_hdr *) (packet + 14);
     ether_type = ntohs( eth_hdr->ether_type );
-
-    if ( ether_type == ETHERTYPE_ARP ) {
-        fprintf( stdout, "%d\n", ntohs( arp_hdr->opcode ) );
+    if ( ether_type == ETHERTYPE_ARP && ntohs( arp_hdr->opcode ) == ARPOP_REPLY )
+    {
+        // if the reply is destined to us
+        if ( arp_hdr->dst_hw[0] == conf->hw[0]
+          && arp_hdr->dst_hw[1] == conf->hw[1]
+          && arp_hdr->dst_hw[2] == conf->hw[2]
+          && arp_hdr->dst_hw[3] == conf->hw[3]
+          && arp_hdr->dst_hw[4] == conf->hw[4]
+          && arp_hdr->dst_hw[5] == conf->hw[5] )
+          {
+              fprintf( stdout, "arp reply!\n" );
+        }
     }
 }
-
 
 void * rpi_arp_sniffer( void *conf )
 {   
     pcap_t *handle;
-    int sockfd;
     int snaplen;
     int timeout;
     int promisc;
@@ -74,7 +79,7 @@ void * rpi_arp_sniffer( void *conf )
         _rlog( RPI_LOG_ERR, err_buff );
     }
 
-    pcap_loop( handle, -1, packet_handler, NULL );
+    pcap_loop( handle, -1, packet_handler, (u_char *) _conf );
     pcap_close( handle );
     return NULL;
 }

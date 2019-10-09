@@ -23,13 +23,13 @@ struct rpi_arp_hdr
 {
     uint16_t hwtype;
     uint16_t ptype;
-    uint8_t hwlen;
-    uint8_t ptlen;
+    uint8_t  hwlen;
+    uint8_t  ptlen;
     uint16_t opcode;
-    uint8_t *src_hw;
-    uint8_t *src_ip;
-    uint8_t *dst_hw;
-    uint8_t *dst_ip;
+    uint8_t  src_hw[6];
+    uint8_t  src_ip[4];
+    uint8_t  dst_hw[6];
+    uint8_t  dst_ip[4];
 };
 
 int    init_sock( char *errbuf );

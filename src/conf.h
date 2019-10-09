@@ -5,6 +5,8 @@
 
 FILE *log_fp;
 
+int sockfd;
+
 // the status of the log initialization
 int log_stat;
 
