@@ -53,6 +53,7 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
     uint32_t _net_off;
 
+    packet_count   = 0;
     _net_off       = net_off( conf->ip, conf->msk );
     conf->_nhosts  = nhosts( conf->msk );
     _net_off++;
@@ -137,6 +138,7 @@ void send_packet( libnet_t *lctx, struct rpi_conf *conf,
     if ( libnet_write( lctx ) == -1 ) {
         _rlog( RPI_LOG_ERR, "libnet_write() - Error writing packet!\n" );
     }
+    packet_count++;
     libnet_clear_packet( lctx );
 }
 

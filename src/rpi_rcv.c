@@ -34,7 +34,6 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
     struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
     struct rpi_arp_hdr *arp_hdr = (struct rpi_arp_hdr *) (packet + 14);
     struct rpi_conf *conf       = (struct rpi_conf *) args;
-    struct rpi_replies replies[0xFF];
 
     ether_type = ntohs( eth_hdr->ether_type );
     if ( ether_type == ETHERTYPE_ARP && ntohs( arp_hdr->opcode ) == ARPOP_REPLY )
@@ -47,7 +46,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
           && arp_hdr->dst_hw[4] == conf->hw[4]
           && arp_hdr->dst_hw[5] == conf->hw[5] )
           {
-              fprintf( stdout, "nhosts = %d\n", conf->_nhosts );
+              fprintf( stdout, "packets sent = %d\n", packet_count );
         }
     }
 }

@@ -32,11 +32,6 @@ struct rpi_arp_hdr
     uint8_t  dst_ip[4];
 };
 
-struct rpi_replies
-{
-    uint8_t hw[6];
-};
-
 int    init_sock( char *errbuf );
 int    notify_server( int *sock, char *buff );
 void * rpi_arp_sniffer( void *conf );

@@ -10,6 +10,9 @@ int sockfd;
 // the status of the log initialization
 int log_stat;
 
+// counter holding the total number of packets sent
+unsigned int packet_count;
+
 // global error buffer
 char err_buff[0xFF];
 
