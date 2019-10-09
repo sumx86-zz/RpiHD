@@ -29,6 +29,7 @@ int init_sock( char *errbuf )
 void packet_handler( u_char *args, const struct pcap_pkthdr *header, 
                      const u_char *packet )
 {
+    uint8_t buff[0xFF];
     uint16_t ether_type;
     struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
     struct rpi_arp_hdr *arp_hdr = (struct rpi_arp_hdr *) (packet + 14);
@@ -86,5 +87,6 @@ void * rpi_arp_sniffer( void *conf )
 
 int notify_server( int *sock, char *buff )
 {
+    // char *end = "[arp-end]";
     return 0;
 }
