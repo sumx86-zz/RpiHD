@@ -24,6 +24,7 @@ struct rpi_conf
     uint8_t hw[6];
     uint8_t msk[4];
     uint8_t *dst_ip;
+    uint16_t _nhosts;
 };
 
 // return stats

@@ -51,14 +51,13 @@ void rpi_start_receiver( struct rpi_conf *conf )
 
 void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
-    uint16_t _nhosts;
     uint32_t _net_off;
 
-    _net_off = net_off( conf->ip, conf->msk );
-    _nhosts  = nhosts( conf->msk );
+    _net_off       = net_off( conf->ip, conf->msk );
+    conf->_nhosts  = nhosts( conf->msk );
     _net_off++;
 
-    for ( uint16_t i = 0 ; i < _nhosts ; i++ ) {
+    for ( uint16_t i = 0 ; i < conf->_nhosts ; i++ ) {
         send_packet( lctx, conf, _net_off++ );
         mssleep( 0.3 );
     }
