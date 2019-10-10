@@ -100,3 +100,19 @@ int normalize_ip( uint8_t *ip, uint8_t *dst )
 
     return RPI_BAD;
 }
+
+/* convert ip from 4-byte to a dotted string */
+char * cnvrt_ip( uint8_t *ip )
+{
+    static char _ip[20];
+    sprintf( _ip, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3] );
+    return _ip;
+}
+
+/* convert mac from 6-byte to colon separated string */
+char * cnvrt_hw( uint8_t *hw )
+{
+    static char _hw[20];
+    sprintf( _hw, "%02x:%02x:%02x:%02x:%02x:%02x", hw[0], hw[1], hw[2], hw[3], hw[4], hw[5] );
+    return _hw;
+}

@@ -42,4 +42,7 @@ extern void init_log( void );
 extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
 
+extern char * cnvrt_ip( uint8_t *ip );
+extern char * cnvrt_hw( uint8_t *hw );
+
 #endif

@@ -30,6 +30,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
                      const u_char *packet )
 {
     short is_reply;
+    char buff[0xFF];
     uint16_t ether_type;
     struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
     struct rpi_arp_hdr *arp_hdr = (struct rpi_arp_hdr *) (packet + 14);
@@ -57,10 +58,9 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
 
     if ( is_reply )
     {
-        fprintf( stdout, "%d.%d.%d.%d - ", reply->src_ip[0], reply->src_ip[1], reply->src_ip[2], reply->src_ip[3] );
-        fprintf( stdout, "%02x:%02x:%02x:%02x:%02x:%02x\n", 
-            reply->src_hw[0], reply->src_hw[1], reply->src_hw[2],
-            reply->src_hw[3], reply->src_hw[4], reply->src_hw[5] );
+        sprintf( buff, "Found host -> %s -- %s", 
+            cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
+        notify_server( &sockfd, buff );
     }
     is_reply = 0;
 }
@@ -99,9 +99,10 @@ void * rpi_arp_sniffer( void *conf )
     return NULL;
 }
 
+
 int notify_server( int *sock, char *buff )
 {
-    // uint8_t buff[0xFF];
     // char *end = "[arp-end]";
+    fprintf( stdout, "%s\n", buff );
     return 0;
 }

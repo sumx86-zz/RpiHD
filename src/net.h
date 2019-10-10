@@ -14,6 +14,8 @@
 #include "conf.h"
 
 int       normalize_ip( uint8_t *ip, uint8_t *dst );
+char    * cnvrt_ip( uint8_t *ip );
+char    * cnvrt_hw( uint8_t *hw );
 uint8_t * long2ip( uint32_t long_ip );
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf );
 uint16_t  nhosts( uint8_t *nmask );
