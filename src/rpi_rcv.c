@@ -4,7 +4,7 @@
 void packet_handler( u_char *args, const struct pcap_pkthdr *header, 
                      const u_char *packet )
 {
-    short is_reply, end;
+    short is_reply;
     char buff[0xFF];
     uint16_t ether_type;
     struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
@@ -15,28 +15,37 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
     is_reply   = 0;
     ether_type = ntohs( eth_hdr->ether_type );
     
-    if ( ether_type == ETHERTYPE_ARP && ntohs( arp_hdr->opcode ) == ARPOP_REPLY )
+    if ( ether_type == ETHERTYPE_ARP )
     {
-        // if the reply is destined to us
-        if ( arp_hdr->dst_hw[0] == conf->hw[0]
-          && arp_hdr->dst_hw[1] == conf->hw[1]
-          && arp_hdr->dst_hw[2] == conf->hw[2]
-          && arp_hdr->dst_hw[3] == conf->hw[3]
-          && arp_hdr->dst_hw[4] == conf->hw[4]
-          && arp_hdr->dst_hw[5] == conf->hw[5] )
-          {
-              is_reply = 1;
-              memcpy( reply->src_hw, arp_hdr->src_hw, 6 );
-              memcpy( reply->src_ip, arp_hdr->src_ip, 4 );
+        if ( ntohs( arp_hdr->opcode ) == ARPOP_REPLY )
+        {
+            // if the reply is destined to us
+            if ( arp_hdr->dst_hw[0] == conf->hw[0]
+              && arp_hdr->dst_hw[1] == conf->hw[1]
+              && arp_hdr->dst_hw[2] == conf->hw[2]
+              && arp_hdr->dst_hw[3] == conf->hw[3]
+              && arp_hdr->dst_hw[4] == conf->hw[4]
+              && arp_hdr->dst_hw[5] == conf->hw[5] )
+            {
+                is_reply = 1;
+                memcpy( reply->src_hw, arp_hdr->src_hw, 6 );
+                memcpy( reply->src_ip, arp_hdr->src_ip, 4 );
+            }
         }
-    }
 
-    if ( is_reply )
-    {
-        sprintf( buff, "Found host -> %s -- %s", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
-        notify_server( &sockfd, buff, false );
+        if ( is_reply )
+        {
+            sprintf( buff, "Found host > %s -- %s", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
+            notify_server( &sockfd, buff );
+        }
+        
+        // notify the server when the last arp request has been sent
+        if ( packet_count == conf->_nhosts - 1 )
+        {
+            notify_server( &sockfd, NULL );
+        }
+        is_reply = 0;
     }
-    is_reply = 0;
 }
 
 void * rpi_arp_sniffer( void *conf )
@@ -74,13 +83,13 @@ void * rpi_arp_sniffer( void *conf )
 }
 
 
-int notify_server( int *sock, char *buff, rbool_t end )
+int notify_server( int *sock, char *buff )
 {
-    // char *end = "[arp-end]";
-    if ( !end ) {
+    char *end = "[rpi-end]";
+    if ( buff ) {
         fprintf( stdout, "%s\n", buff );
     } else {
-        fprintf( stdout, "end reached\n" );
+        fprintf( stdout, "%s\n", end );
     }
     return 0;
 }
