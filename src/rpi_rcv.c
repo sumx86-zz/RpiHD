@@ -1,31 +1,6 @@
 #include "rpi_rcv.h"
 
 
-int init_sock( char *errbuf )
-{
-    int sock, sopt, opt;
-
-    sock = socket( AF_INET, SOCK_STREAM, 0 );
-    if ( sock < 0 ){
-        strcpy( errbuf, strerror( errno ) );
-        return -1;
-    }
-
-    sopt = setsockopt( 
-        sock, 
-        SOL_SOCKET, 
-        SO_REUSEADDR, 
-        &opt, 
-        sizeof( opt )
-    );
-
-    if ( sopt < 0 ){
-        strcpy( errbuf, strerror( errno ) );
-        return -1;
-    }
-    return sock;
-}
-
 void packet_handler( u_char *args, const struct pcap_pkthdr *header, 
                      const u_char *packet )
 {

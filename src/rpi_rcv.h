@@ -32,7 +32,6 @@ struct rpi_arp_hdr
     uint8_t  dst_ip[4];
 };
 
-int    init_sock( char *errbuf );
 int    notify_server( int *sock, char *buff, rbool_t end );
 void * rpi_arp_sniffer( void *conf );
 void   packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_char *packet );
@@ -41,6 +40,8 @@ void   packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_c
 extern void init_log( void );
 extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
+
+extern int init_sock( char *errbuf );
 
 extern char * cnvrt_ip( uint8_t *ip );
 extern char * cnvrt_hw( uint8_t *hw );

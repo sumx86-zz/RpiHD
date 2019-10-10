@@ -49,6 +49,33 @@ uint32_t net_off( uint8_t *ip, uint8_t *nmask )
     return off;
 }
 
+/* create a socket */
+int init_sock( char *errbuf )
+{
+    int sock, sopt, opt;
+
+    sock = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( sock < 0 ){
+        strcpy( errbuf, strerror( errno ) );
+        return -1;
+    }
+
+    sopt = setsockopt( 
+        sock, 
+        SOL_SOCKET, 
+        SO_REUSEADDR, 
+        &opt, 
+        sizeof( opt )
+    );
+
+    if ( sopt < 0 ){
+        strcpy( errbuf, strerror( errno ) );
+        return -1;
+    }
+    return sock;
+}
+
+
 /* get the ip address or netmask of the device */
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )
 {
