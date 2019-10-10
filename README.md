@@ -4,4 +4,4 @@
 ### Pi model is 3 B+
 Raspberry Pi Host Discovery
 
-## Development moved to newb branch
+## Development moved to "newb" branch
