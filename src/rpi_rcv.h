@@ -33,7 +33,7 @@ struct rpi_arp_hdr
 };
 
 int    init_sock( char *errbuf );
-int    notify_server( int *sock, char *buff );
+int    notify_server( int *sock, char *buff, rbool_t end );
 void * rpi_arp_sniffer( void *conf );
 void   packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_char *packet );
 
