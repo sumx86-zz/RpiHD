@@ -4,7 +4,6 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
                                   char *errbuf )
 {   
     libnet_t *ltag;
-    struct libnet_ether_addr *hw;
 
     if (!(ltag = libnet_init( LIBNET_LINK, conf->device, errbuf ))){
         return NULL;
@@ -15,23 +14,6 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
         strcpy( errbuf, strerror( log_stat ) );
         return NULL;
     }
-    
-    normalize_ip(
-        getaddr( RPI_IPV4, conf->device, errbuf ),
-        conf->ip
-    );
-    normalize_ip(
-        getaddr( RPI_MASK, conf->device, errbuf ),
-        conf->msk
-    );
-
-    // device hardware address
-    if ((hw = libnet_get_hwaddr( ltag )) == NULL){
-        strcpy( errbuf, libnet_geterror(ltag) );
-        return NULL;
-    }
-
-    memcpy( conf->hw, hw, 6 );
     return ltag;
 }
 
