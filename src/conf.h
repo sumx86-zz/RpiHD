@@ -30,6 +30,12 @@ struct rpi_conf
     uint16_t _nhosts;
 };
 
+struct arp_reply
+{
+    uint8_t src_hw[6];
+    uint8_t src_ip[4];
+};
+
 // return stats
 typedef enum
 {
