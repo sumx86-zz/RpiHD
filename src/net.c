@@ -75,6 +75,12 @@ int init_sock( char *errbuf )
     return sock;
 }
 
+/* used to initialize the connection to the server */
+int init_connection( int *sock, char *errbuf )
+{
+    return 0;
+}
+
 
 /* get the ip address or netmask of the device */
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )

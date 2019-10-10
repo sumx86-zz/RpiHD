@@ -14,6 +14,7 @@
 #include "conf.h"
 
 int       init_sock( char *errbuf );
+int       init_connection( int *sock, char *errbuf );
 int       normalize_ip( uint8_t *ip, uint8_t *dst );
 char    * cnvrt_ip( uint8_t *ip );
 char    * cnvrt_hw( uint8_t *hw );
