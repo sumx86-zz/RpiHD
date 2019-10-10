@@ -36,7 +36,7 @@ struct arp_reply
     uint8_t src_ip[4];
 };
 
-// booleans
+// booleans-
 typedef enum
 {
     false,
