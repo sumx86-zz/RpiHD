@@ -76,7 +76,7 @@ int init_sock( char *errbuf )
 }
 
 /* used to initialize the connection to the server */
-int init_connection( int *sock, char *errbuf )
+int init_connection( int *sock, struct rpi_conf *conf, char *errbuf )
 {
     return 0;
 }

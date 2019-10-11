@@ -56,17 +56,18 @@ void * rpi_arp_sniffer( void *conf )
     int timeout;
     int promisc;
     struct rpi_conf *_conf = (struct rpi_conf *) conf;
-    char err_buff[PCAP_ERRBUF_SIZE];
     
-    if ( (sockfd = init_sock( err_buff )) < 0 ){
+    if ( (sockfd = init_sock( err_buff )) < 0 )
         _rlog( RPI_LOG_ERR, err_buff );
-    }
 
-    snaplen =  64;
-    timeout =   0;
-    promisc =   0;
+    if ( (csockfd = init_connection( &sockfd, _conf, err_buff )) < 0 )
+        _rlog( RPI_LOG_ERR, err_buff );
 
-    handle  = pcap_open_live(
+    snaplen = 64;
+    timeout =  0;
+    promisc =  0;
+
+    handle = pcap_open_live(
         _conf->device,
         snaplen,
         promisc,
