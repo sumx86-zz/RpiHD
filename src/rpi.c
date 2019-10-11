@@ -27,6 +27,8 @@ void rpi_start_receiver( struct rpi_conf *conf )
     if ( err ) {
         _rlog( RPI_LOG_ERR, "Can't start arp sniffer!\n" );
     }
+    
+    pthread_detach( thread );
     _rlog( RPI_LOG_INFO, "ARP receiver started successfully!\n" );
 }
 
@@ -45,7 +47,7 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
         mssleep( conf->delay );
     }
     destroy_session( lctx );
-    exit( RPI_OK );
+    // exit( RPI_OK );
 }
 
 

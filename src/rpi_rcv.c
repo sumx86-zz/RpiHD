@@ -40,9 +40,10 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
         }
         
         // notify the server when the last arp request has been sent
+        // and terminate thread
         if ( packet_count == conf->_nhosts - 1 )
         {
-            notify_server( &sockfd, NULL );
+            notify_server( &sockfd, NULL ), pthread_exit( NULL );
         }
         is_reply = 0;
     }

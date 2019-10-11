@@ -77,10 +77,11 @@ int main( int argc, char **argv )
     if ( strlen( err_buff ) > 0 ) {
         _rlog( RPI_LOG_ERR, err_buff );
     }
-    
     memcpy( conf->hw, hw, 6 );
+
     _rlog( RPI_LOG_INFO, "RPI initialized successfully!\n" );
     rpi_start_receiver( conf );
     rpi_arp_initiate( ltag, conf );
-    return 0;
+    // wait for the arp receiver (thread) to terminate
+    pthread_exit( NULL );
 }

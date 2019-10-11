@@ -9,6 +9,7 @@
 #include <time.h>
 #include <net/if.h>
 #include <netinet/ether.h>
+#include <pthread.h>
 #include "conf.h"
 #include "net.h"
 
