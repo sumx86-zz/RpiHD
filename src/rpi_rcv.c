@@ -62,7 +62,7 @@ void * rpi_arp_sniffer( void *conf )
     }
 
     snaplen =  64;
-    timeout = 100;
+    timeout =   0;
     promisc =   0;
 
     handle  = pcap_open_live(

@@ -14,13 +14,15 @@ int main( int argc, char **argv )
 {
     libnet_t *ltag;
     int opt;
+    char *delay;
+    double rff;
     struct libnet_ether_addr *hw;
     struct rpi_conf c, *conf = &c;
 
     conf->device = NULL;
     conf->server = NULL;
     conf->port   = NULL;
-    conf->delay  = NULL;
+    delay        = NULL;
 
     while ( (opt = getopt( argc, argv, "d:s:p:t:" )) != -1 )
     {
@@ -32,20 +34,23 @@ int main( int argc, char **argv )
             case 'p':
                 conf->port   = optarg; break;
             case 't':
-                conf->delay  = optarg; break;
+                delay        = optarg; break;
             default:
                 rpi_usage( argv[0] );
         }
     }
 
-    if ( !conf->device || !conf->server || !conf->port || !conf->delay ){
+    if ( !conf->device || !conf->server || !conf->port || !delay ){
         rpi_usage( argv[0] );
     }
 
-    if ( (int) atof( conf->delay ) != 0 ){
+    rff = atof( delay );
+    if ( (int) rff != 0 )
+    {
         fprintf( stderr, "Delay must be in the range [0.0 - 0.9]\n" );
         exit( RPI_BAD );
     }
+    conf->delay = (float) rff;
 
     if ( (ltag = rpi_initialize( conf, err_buff )) == NULL ){
         // this is the only place where _rlog() is not used since the initialization includes

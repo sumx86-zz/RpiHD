@@ -33,18 +33,16 @@ void rpi_start_receiver( struct rpi_conf *conf )
 
 void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
 {
-    float delay;
     uint32_t _net_off;
 
     packet_count  = 0;
-    delay         = (float) atof( conf->delay );
-    conf->_nhosts = nhosts( conf->msk );
     _net_off      = net_off( conf->ip, conf->msk );
+    conf->_nhosts = nhosts( conf->msk );
 
     _net_off++;
     for ( uint16_t i = 0 ; i < conf->_nhosts ; i++ ){
         send_packet( lctx, conf, _net_off++ );
-        mssleep( delay );
+        mssleep( conf->delay );
     }
     destroy_session( lctx );
     exit( RPI_OK );
