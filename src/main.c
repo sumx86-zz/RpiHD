@@ -42,6 +42,11 @@ int main( int argc, char **argv )
         rpi_usage( argv[0] );
     }
 
+    if ( (int) atof( conf->delay ) != 0 ){
+        fprintf( stderr, "Delay must be in the range [0.0 - 0.9]\n" );
+        exit( RPI_BAD );
+    }
+
     if ( (ltag = rpi_initialize( conf, err_buff )) == NULL ){
         // this is the only place where _rlog() is not used since the initialization includes
         // creation of log file ( init_log() ), so in case where init_log() fails, error buffer
