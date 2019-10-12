@@ -105,6 +105,7 @@ int init_connection( struct rpi_conf *conf, char *errbuf )
 
 struct sockaddr_in * server_state_listen( uint16_t port, char *errbuf )
 {   
+    int bind_stat;
     struct sockaddr_in server, *s = &server;
 
     if ( (sockfd = init_sock( errbuf )) < 0 )
@@ -114,6 +115,21 @@ struct sockaddr_in * server_state_listen( uint16_t port, char *errbuf )
     s->sin_addr.s_addr = INADDR_ANY;
     s->sin_port        = htons( port );
 
+    bind_stat = bind(
+        sockfd,
+        (struct sockaddr *) s,
+        sizeof( server )
+    );
+
+    if ( bind_stat == -1 ){
+        sprintf( errbuf, "%s\n", strerror( errno ) );
+        return NULL;
+    }
+    
+    if ( listen( sockfd, 1 ) == -1 ){
+        sprintf( errbuf, "%s\n", strerror( errno ) );
+        return NULL;
+    }
     return s;
 }
 
