@@ -43,7 +43,7 @@ extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
 
 extern int init_sock( char *errbuf );
-extern int init_connection( int *sock, struct rpi_conf *conf, char *errbuf );
+extern int init_connection( struct rpi_conf *conf, char *errbuf );
 
 extern char * cnvrt_ip( uint8_t *ip );
 extern char * cnvrt_hw( uint8_t *hw );

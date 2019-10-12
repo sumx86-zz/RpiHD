@@ -43,7 +43,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
         // and terminate thread
         if ( packet_count == conf->_nhosts - 1 )
         {
-            notify_server( &sockfd, NULL ), pthread_exit( NULL );
+            notify_server( &sockfd, NULL ), close( sockfd ), pthread_exit( NULL );
         }
         is_reply = 0;
     }
@@ -56,11 +56,8 @@ void * rpi_arp_sniffer( void *conf )
     int timeout;
     int promisc;
     struct rpi_conf *_conf = (struct rpi_conf *) conf;
-    
-    if ( (sockfd = init_sock( err_buff )) < 0 )
-        _rlog( RPI_LOG_ERR, err_buff );
 
-    if ( (csockfd = init_connection( &sockfd, _conf, err_buff )) < 0 )
+    if ( (csockfd = init_connection( _conf, err_buff )) < 0 )
         _rlog( RPI_LOG_ERR, err_buff );
 
     snaplen =  64;

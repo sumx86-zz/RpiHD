@@ -76,11 +76,18 @@ int init_sock( char *errbuf )
 }
 
 /* used to initialize the connection to the server */
-int init_connection( int *sock, struct rpi_conf *conf, char *errbuf )
+int init_connection( struct rpi_conf *conf, char *errbuf )
 {
+    struct sockaddr_in server;
+
+    if ( (sockfd = init_sock( errbuf )) < 0 )
+        return -1;
+
+    server.sin_addr.s_addr = inet_addr( conf->server );
+    server.sin_family      = AF_INET;
+    server.sin_port        = htons( atoi( conf->port ) );
     return 0;
 }
-
 
 /* get the ip address or netmask of the device */
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )
