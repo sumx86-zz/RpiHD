@@ -35,7 +35,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
 
         if ( is_reply )
         {
-            sprintf( buff, "Found host > %s -- %s", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
+            sprintf( buff, "Found host > %s -- %s\n", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
             notify_server( &sockfd, buff );
         }
         
@@ -43,7 +43,8 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
         // and terminate thread
         if ( packet_count == conf->_nhosts - 1 )
         {
-            notify_server( &sockfd, NULL ), close( sockfd ), pthread_exit( NULL );
+            sprintf( buff, "[rpi-end]\n" );
+            notify_server( &sockfd, buff ), close( sockfd ), pthread_exit( NULL );
         }
         is_reply = 0;
     }
@@ -61,9 +62,8 @@ void * rpi_arp_sniffer( void *conf )
         _rlog( RPI_LOG_ERR, err_buff );
 
     _rlog( RPI_LOG_INFO, "Connected to server!\n" );
-
     snaplen =  64;
-    timeout = 100;
+    timeout =   0;
     promisc =   0;
 
     handle = pcap_open_live(
@@ -86,11 +86,9 @@ void * rpi_arp_sniffer( void *conf )
 
 int notify_server( int *sock, char *buff )
 {
-    char *end = "[rpi-end]";
-    if ( buff ) {
-        fprintf( stdout, "%s\n", buff );
-    } else {
-        fprintf( stdout, "%s\n", end );
+    if ( *sock )
+    {
+        send( *sock, buff, strlen( buff ), 0 );
     }
     return 0;
 }
