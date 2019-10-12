@@ -102,6 +102,22 @@ int init_connection( struct rpi_conf *conf, char *errbuf )
     return csock;
 }
 
+
+struct sockaddr_in * server_state_listen( uint16_t port, char *errbuf )
+{   
+    struct sockaddr_in server, *s = &server;
+
+    if ( (sockfd = init_sock( errbuf )) < 0 )
+        return NULL;
+    
+    s->sin_family      = AF_INET;
+    s->sin_addr.s_addr = INADDR_ANY;
+    s->sin_port        = htons( port );
+
+    return s;
+}
+
+
 /* get the ip address or netmask of the device */
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )
 {
