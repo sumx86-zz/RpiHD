@@ -78,6 +78,7 @@ int init_sock( char *errbuf )
 /* used to initialize the connection to the server */
 int init_connection( struct rpi_conf *conf, char *errbuf )
 {
+    int csock;
     struct sockaddr_in server;
 
     if ( (sockfd = init_sock( errbuf )) < 0 )
@@ -86,7 +87,19 @@ int init_connection( struct rpi_conf *conf, char *errbuf )
     server.sin_addr.s_addr = inet_addr( conf->server );
     server.sin_family      = AF_INET;
     server.sin_port        = htons( atoi( conf->port ) );
-    return 0;
+    
+    csock = connect(
+        sockfd,
+        (struct sockaddr *) &server, 
+        sizeof( server )
+    );
+
+    if ( csock < 0 ) {
+        sprintf( errbuf, "Connection to server failed!\n" );
+        return -1;
+    }
+    fprintf( stdout, "%s - %d\n", conf->server, atoi( conf->port ) );
+    return csock;
 }
 
 /* get the ip address or netmask of the device */

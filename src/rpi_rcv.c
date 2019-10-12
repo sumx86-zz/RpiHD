@@ -50,7 +50,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
 }
 
 void * rpi_arp_sniffer( void *conf )
-{   
+{
     pcap_t *handle;
     int snaplen;
     int timeout;
@@ -59,6 +59,8 @@ void * rpi_arp_sniffer( void *conf )
 
     if ( (csockfd = init_connection( _conf, err_buff )) < 0 )
         _rlog( RPI_LOG_ERR, err_buff );
+
+    _rlog( RPI_LOG_INFO, "Connected to server!\n" );
 
     snaplen =  64;
     timeout = 100;
