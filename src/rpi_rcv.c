@@ -63,9 +63,9 @@ void * rpi_arp_sniffer( void *conf )
     if ( (csockfd = init_connection( &sockfd, _conf, err_buff )) < 0 )
         _rlog( RPI_LOG_ERR, err_buff );
 
-    snaplen = 64;
-    timeout =  0;
-    promisc =  0;
+    snaplen =  64;
+    timeout = 100;
+    promisc =   0;
 
     handle = pcap_open_live(
         _conf->device,

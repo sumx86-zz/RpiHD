@@ -60,23 +60,13 @@ int main( int argc, char **argv )
         exit( RPI_BAD );
     }
 
-    normalize_ip(
-        getaddr( RPI_IPV4, conf->device, err_buff ),
-        conf->ip
-    );
-    normalize_ip(
-        getaddr( RPI_MASK, conf->device, err_buff ),
-        conf->msk
-    );
-
     // device hardware address
-    if ((hw = libnet_get_hwaddr( ltag )) == NULL){
+    if ((hw = libnet_get_hwaddr( ltag )) == NULL)
+    {
         strcpy( err_buff, libnet_geterror(ltag) );
-    }
-
-    if ( strlen( err_buff ) > 0 ) {
         _rlog( RPI_LOG_ERR, err_buff );
     }
+
     memcpy( conf->hw, hw, 6 );
 
     _rlog( RPI_LOG_INFO, "RPI initialized successfully!\n" );

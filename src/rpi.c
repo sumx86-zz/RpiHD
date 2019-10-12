@@ -14,6 +14,15 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
         strcpy( errbuf, strerror( log_stat ) );
         return NULL;
     }
+
+    normalize_ip(
+        getaddr( RPI_IPV4, conf->device, errbuf ),
+        conf->ip
+    );
+    normalize_ip(
+        getaddr( RPI_MASK, conf->device, errbuf ),
+        conf->msk
+    );
     return ltag;
 }
 
@@ -23,7 +32,13 @@ void rpi_start_receiver( struct rpi_conf *conf )
     pthread_t thread;
     int err;
 
-    err = pthread_create( &thread, NULL, rpi_arp_sniffer, (void *) conf );
+    err = pthread_create(
+        &thread,
+        NULL,
+        rpi_arp_sniffer,
+        (void *) conf
+    );
+
     if ( err ) {
         _rlog( RPI_LOG_ERR, "Can't start arp sniffer!\n" );
     }
@@ -38,7 +53,7 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
     uint32_t _net_off;
 
     packet_count  = 0;
-    _net_off      = net_off( conf->ip, conf->msk );
+    _net_off      = net_off( conf->ip, conf->msk ); // start ip address, e.g 192.168.0.0
     conf->_nhosts = nhosts( conf->msk );
 
     _net_off++;
