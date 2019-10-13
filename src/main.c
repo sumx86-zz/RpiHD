@@ -3,6 +3,7 @@
 void rpi_usage( char *prog )
 {
     fprintf( stderr, "\nUsage: %s [OPTION] [ARGUMENT]\n", prog );
+    fprintf( stderr, "-h Display help\n" );
     fprintf( stderr, "-d [DEVICE]\n" );
     fprintf( stderr, "-s [SERVER]\n" );
     fprintf( stderr, "-p [PORT]\n" );
@@ -24,9 +25,11 @@ int main( int argc, char **argv )
     conf->port   = NULL;
     delay        = NULL;
 
-    while ( (opt = getopt( argc, argv, "d:s:p:t:" )) != -1 )
+    while ( (opt = getopt( argc, argv, "d:s:p:t:h" )) != -1 )
     {
         switch ( opt ) {
+            case 'h':
+                rpi_usage( argv[0] );
             case 'd':
                 conf->device = optarg; break;
             case 's':

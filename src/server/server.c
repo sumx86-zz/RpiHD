@@ -3,6 +3,7 @@
 void _usage( char *prog )
 {
     fprintf( stderr, "\nUsage: %s -p [PORT]\n", prog );
+    fprintf( stderr, "-h Display help\n" );
     exit( RPI_BAD );
 }
 
@@ -32,9 +33,11 @@ int main( int argc, char **argv )
     port    = NULL;
     rpi_len = sizeof( rpi );
 
-    while ( (opt = getopt( argc, argv, "p:" )) != -1 )
+    while ( (opt = getopt( argc, argv, "p:h" )) != -1 )
     {
         switch ( opt ) {
+            case 'h':
+                _usage( argv[0] );
             case 'p':
                 port = optarg;
                 break;

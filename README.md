@@ -18,7 +18,7 @@ Raspberry Pi Host Discovery
     sudo ./build.sh
         
     # This creates the server executable /usr/bin/rpi_server
-    # Also creates the directory /var/log/rpihd which is used by the server
+    # Also creates the directory /var/log/rpihd which is used by the server and another executable called rpilog to display server log
     ```
 
 * On the raspberry pi:
@@ -26,7 +26,7 @@ Raspberry Pi Host Discovery
     chmod +x build_rpi.sh
     sudo ./build_rpi.sh
 
-    # This creates the rpi executable /usr/bin/rpi
+    # This creates the rpi executable /usr/bin/rpi and another executable called rpilogtmp to display the rpi log (this is a temporary file)
     ```
 
 ## Usage
