@@ -10,6 +10,9 @@ if [ $UID -ne $ROOT_ID ]; then
 	exit 2
 fi
 
+echo "cat $logdir/$rpidir/arp.log" > /usr/bin/rpilog
+chmod +x /usr/bin/rpilog
+
 if [ ! -d $logdir/$rpidir ]; then
 	cd $logdir
 	mkdir $rpidir
@@ -18,6 +21,4 @@ else
 fi
 
 # build server
-echo "cat $logdir/$rpidir/arp.log" > /usr/bin/rpilog
-chmod +x /usr/bin/rpilog
 gcc -Wall src/server/server.c src/net.c src/log.c -o /usr/bin/rpi_server
