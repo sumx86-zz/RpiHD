@@ -9,6 +9,7 @@
 #include <time.h>
 #include <net/if.h>
 #include <netinet/ether.h>
+#include <pthread.h>
 #include "conf.h"
 #include "net.h"
 
@@ -32,15 +33,17 @@ struct rpi_arp_hdr
     uint8_t  dst_ip[4];
 };
 
-int    init_sock( char *errbuf );
-int    notify_server( int *sock, char *buff, rbool_t end );
+int    notify_server( int *sock, char *buff );
 void * rpi_arp_sniffer( void *conf );
 void   packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_char *packet );
 
 // external functions here
-extern void init_log( void );
+extern void init_log( rpi_origin_t origin );
 extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
+
+extern int init_sock( char *errbuf );
+extern int init_connection( struct rpi_conf *conf, char *errbuf );
 
 extern char * cnvrt_ip( uint8_t *ip );
 extern char * cnvrt_hw( uint8_t *hw );

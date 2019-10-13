@@ -4,18 +4,17 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
                                   char *errbuf )
 {   
     libnet_t *ltag;
-    struct libnet_ether_addr *hw;
 
     if (!(ltag = libnet_init( LIBNET_LINK, conf->device, errbuf ))){
         return NULL;
     }
 
-    init_log();
+    init_log( rpi );
     if ( log_stat != 0 ) {
         strcpy( errbuf, strerror( log_stat ) );
         return NULL;
     }
-    
+
     normalize_ip(
         getaddr( RPI_IPV4, conf->device, errbuf ),
         conf->ip
@@ -24,14 +23,6 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
         getaddr( RPI_MASK, conf->device, errbuf ),
         conf->msk
     );
-
-    // device hardware address
-    if ((hw = libnet_get_hwaddr( ltag )) == NULL){
-        strcpy( errbuf, libnet_geterror(ltag) );
-        return NULL;
-    }
-
-    memcpy( conf->hw, hw, 6 );
     return ltag;
 }
 
@@ -41,10 +32,18 @@ void rpi_start_receiver( struct rpi_conf *conf )
     pthread_t thread;
     int err;
 
-    err = pthread_create( &thread, NULL, rpi_arp_sniffer, (void *) conf );
+    err = pthread_create(
+        &thread,
+        NULL,
+        rpi_arp_sniffer,
+        (void *) conf
+    );
+
     if ( err ) {
         _rlog( RPI_LOG_ERR, "Can't start arp sniffer!\n" );
     }
+    
+    pthread_detach( thread );
     _rlog( RPI_LOG_INFO, "ARP receiver started successfully!\n" );
 }
 
@@ -54,16 +53,16 @@ void rpi_arp_initiate( libnet_t *lctx, struct rpi_conf *conf )
     uint32_t _net_off;
 
     packet_count  = 0;
-    _net_off      = net_off( conf->ip, conf->msk );
+    _net_off      = net_off( conf->ip, conf->msk ); // start ip address, e.g 192.168.0.0
     conf->_nhosts = nhosts( conf->msk );
-    _net_off++;
 
-    for ( uint16_t i = 0 ; i < conf->_nhosts ; i++ ) {
+    _net_off++;
+    for ( uint16_t i = 0 ; i < conf->_nhosts ; i++ ){
         send_packet( lctx, conf, _net_off++ );
-        mssleep( 0.3 );
+        mssleep( conf->delay );
     }
     destroy_session( lctx );
-    exit( RPI_OK );
+    // exit( RPI_OK );
 }
 
 

@@ -49,6 +49,91 @@ uint32_t net_off( uint8_t *ip, uint8_t *nmask )
     return off;
 }
 
+/* create a socket */
+int init_sock( char *errbuf )
+{
+    int sock, sopt, opt;
+
+    sock = socket( AF_INET, SOCK_STREAM, 0 );
+    if ( sock < 0 ){
+        strcpy( errbuf, strerror( errno ) );
+        return -1;
+    }
+
+    sopt = setsockopt( 
+        sock, 
+        SOL_SOCKET, 
+        SO_REUSEADDR, 
+        &opt, 
+        sizeof( opt )
+    );
+
+    if ( sopt < 0 ){
+        strcpy( errbuf, strerror( errno ) );
+        return -1;
+    }
+    return sock;
+}
+
+/* used to initialize the connection to the server */
+int init_connection( struct rpi_conf *conf, char *errbuf )
+{
+    int csock;
+    struct sockaddr_in server;
+
+    if ( (sockfd = init_sock( errbuf )) < 0 )
+        return -1;
+
+    server.sin_addr.s_addr = inet_addr( conf->server );
+    server.sin_family      = AF_INET;
+    server.sin_port        = htons( atoi( conf->port ) );
+    
+    csock = connect(
+        sockfd,
+        (struct sockaddr *) &server, 
+        sizeof( server )
+    );
+
+    if ( csock < 0 ) {
+        sprintf( errbuf, "Connection to server failed!\n" );
+        return -1;
+    }
+    fprintf( stdout, "%s - %d\n", conf->server, atoi( conf->port ) );
+    return csock;
+}
+
+
+struct sockaddr_in * server_state_listen( uint16_t port, char *errbuf )
+{   
+    int bind_stat;
+    struct sockaddr_in server, *s = &server;
+
+    if ( (sockfd = init_sock( errbuf )) < 0 )
+        return NULL;
+    
+    s->sin_family      = AF_INET;
+    s->sin_addr.s_addr = INADDR_ANY;
+    s->sin_port        = htons( port );
+
+    bind_stat = bind(
+        sockfd,
+        (struct sockaddr *) s,
+        sizeof( server )
+    );
+
+    if ( bind_stat == -1 ){
+        sprintf( errbuf, "%s\n", strerror( errno ) );
+        return NULL;
+    }
+    
+    if ( listen( sockfd, 1 ) == -1 ){
+        sprintf( errbuf, "%s\n", strerror( errno ) );
+        return NULL;
+    }
+    return s;
+}
+
+
 /* get the ip address or netmask of the device */
 uint8_t * getaddr( rpi_adr_type_t type, char *device, char *errbuf )
 {
