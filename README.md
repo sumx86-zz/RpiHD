@@ -28,10 +28,3 @@ Raspberry Pi Host Discovery
 
     # This creates the rpi executable /usr/bin/rpi and another executable called rpilogtmp to display the rpi log (this is a temporary file)
     ```
-
-## Usage
-
-```
-    rpi_server -h
-    rpi -h
-```
