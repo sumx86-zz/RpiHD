@@ -1,7 +1,6 @@
 # RpiHD
 
 Raspberry Pi Host Discovery
-<<<<<<< HEAD
 
 ## Development moved to "newb" branch
 =======
@@ -39,4 +38,3 @@ Raspberry Pi Host Discovery
     rpi_server -h
     rpi -h
 ```
->>>>>>> 5bb9aace21cadfa9f1897a06c5039fcb7802df73
