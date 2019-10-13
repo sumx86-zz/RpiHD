@@ -12,7 +12,7 @@
 #include "conf.h"
 
 
-void init_log( void );
+void init_log( rpi_origin_t origin );
 void mssleep( float ms );
 void _rlog( rpi_log_t level, char *str );
 

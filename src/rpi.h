@@ -23,7 +23,7 @@ void       rpi_start_receiver( struct rpi_conf *conf );
 int        rpi_packet( libnet_t *lctx, struct rpi_conf *conf, char *errbuf );
 
 // external functions here
-extern void init_log( void );
+extern void init_log( rpi_origin_t origin );
 extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
 extern void * rpi_arp_sniffer( void *conf );

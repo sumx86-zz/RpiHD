@@ -1,8 +1,14 @@
 #include "log.h"
 
-void init_log( void )
+void init_log( rpi_origin_t origin )
 {
-    log_fp   = fopen( RPI_LOG_FILE, "a+" );
+    char *file = NULL;
+    char *mode = NULL;
+
+    if ( origin == rpi )        file = RPI_LOG_FILE, mode = "a+";
+    if ( origin == rpi_server ) file = ARP_LOG,      mode = "w";
+        
+    log_fp   = fopen( file, mode );
     log_stat = ( !log_fp ) ? errno : 0 ;
 }
 

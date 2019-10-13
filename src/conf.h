@@ -2,6 +2,7 @@
 #define __RPI_CONF_H 1
 
 #define RPI_LOG_FILE "/tmp/log.rpi"
+#define ARP_LOG "/var/log/rpihd/arp.log"
 
 FILE *log_fp;
 
@@ -37,14 +38,6 @@ struct arp_reply
     uint8_t src_ip[4];
 };
 
-// booleans-
-typedef enum
-{
-    false,
-    true
-}
-rbool_t;
-
 // return stats
 typedef enum
 {
@@ -68,5 +61,14 @@ typedef enum
     RPI_MASK
 } 
 rpi_adr_type_t;
+
+// origin types to determine how and where 
+// to initialize the log file
+typedef enum
+{
+    rpi,
+    rpi_server
+}
+rpi_origin_t;
 
 #endif

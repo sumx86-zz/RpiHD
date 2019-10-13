@@ -88,7 +88,7 @@ int notify_server( int *sock, char *buff )
 {
     if ( *sock )
     {
-        send( *sock, buff, strlen( buff ), 0 );
+        send( *sock, buff, strlen( buff ) + 1, 0 );
     }
     return 0;
 }

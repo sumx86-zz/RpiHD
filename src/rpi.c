@@ -9,7 +9,7 @@ libnet_t * rpi_initialize( struct rpi_conf *conf,
         return NULL;
     }
 
-    init_log();
+    init_log( rpi );
     if ( log_stat != 0 ) {
         strcpy( errbuf, strerror( log_stat ) );
         return NULL;

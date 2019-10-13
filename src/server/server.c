@@ -1,10 +1,24 @@
-#include "../net.h"
-#include <getopt.h>
+#include "server.h"
 
 void _usage( char *prog )
 {
     fprintf( stderr, "\nUsage: %s -p [PORT]\n", prog );
     exit( RPI_BAD );
+}
+
+void msg_recv_log( int *sock )
+{
+    char buff[1024];
+    size_t nbytes;
+
+    while ( (nbytes = recv( *sock, buff, 1024, 0 )) > 0 )
+    {
+        if ( strstr( buff, "[rpi-end]" ) != NULL ) {
+            _rlog( RPI_LOG_INFO, "[SESSION END]\n\n" );
+        } else {
+            _rlog( RPI_LOG_INFO, buff );
+        }
+    }
 }
 
 int main( int argc, char **argv )
@@ -33,11 +47,18 @@ int main( int argc, char **argv )
         _usage( argv[0] );
     }
     
-    server = server_state_listen( atoi( port ), err_buff );
-    if ( !server ) {
-        fprintf( stderr, "%s\n", err_buff );
+    init_log( rpi_server );
+    if ( log_stat != 0 ) {
+        // again, here we pipe the error buffer to stderr if log initialization fails
+        fprintf( stderr, "%s\n", strerror( log_stat ) );
         exit( RPI_BAD );
     }
+
+    server = server_state_listen( atoi( port ), err_buff );
+    if ( !server ) {
+        _rlog( RPI_LOG_ERR, err_buff );
+    }
+    _rlog( RPI_LOG_INFO, "Server started successfully!\n" );
 
     while ( 1 )
     {
@@ -45,9 +66,9 @@ int main( int argc, char **argv )
             sockfd, (struct sockaddr *) &rpi, &rpi_len
         );
         if ( rpi_sock ) {
-            fprintf( stdout, "connected with rpi! FUCK YEAH!!!\n" );
+            _rlog( RPI_LOG_INFO, "Connected with raspberry pi successfully!\n" );
+            msg_recv_log( &rpi_sock );
         }
     }
-    fprintf( stdout, "%d\n", ntohs( server->sin_port ) );
     return 0;
 }
