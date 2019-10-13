@@ -1,10 +1,6 @@
 # RpiHD
 
 Raspberry Pi Host Discovery
-<<<<<<< HEAD
-
-## Development moved to "newb" branch
-=======
 ### Pi model is 3 B+ but it should work on others as well
 ### Development platform was Linux mint. It should work on Ubuntu and Kali too
 
@@ -39,4 +35,3 @@ Raspberry Pi Host Discovery
     rpi_server -h
     rpi -h
 ```
->>>>>>> 5bb9aace21cadfa9f1897a06c5039fcb7802df73
