@@ -48,7 +48,7 @@ extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
 
 extern int fclines( FILE *fp );
-extern void fgetlines( FILE *fp, char **lines );
+extern int fgetlines( FILE *fp, char **lines );
 
 extern int init_sock( char *errbuf );
 extern int init_connection( struct rpi_conf *conf, char *errbuf );

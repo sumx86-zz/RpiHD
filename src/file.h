@@ -6,7 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int  fclines( FILE *fp );
-void fgetlines( FILE *fp, char **lines );
+int fclines( FILE *fp );
+int fgetlines( FILE *fp, char **lines );
 
 #endif

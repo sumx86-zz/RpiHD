@@ -12,7 +12,15 @@ int fclines( FILE *fp )
     return size;
 }
 
-void fgetlines( FILE *fp, char **lines )
+int fgetlines( FILE *fp, char **lines )
 {
+    int nl, i;
+    char line[0xFF];
     
+    i  = 0;
+    nl = fclines( fp );
+    if ( nl <= 0 ) {
+        return -1;
+    }
+    return nl;
 }

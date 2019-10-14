@@ -96,22 +96,7 @@ int is_trusted_host( uint8_t *hw )
 
 int load_tlist( char *list )
 {
-    FILE *fp;
-    int size;
-
-    size = 0;
-    fp   = fopen( list, "r" );
-    if ( !fp ) {
-        return -1;
-    }
-
-    size = fclines( fp );
-    if ( size <= 0 ) {
-        return -1;
-    }
-
-    // fgetlines( fp, tlist );
-    return 0;
+    return -1;
 }
 
 int notify_server( int *sock, char *buff )
