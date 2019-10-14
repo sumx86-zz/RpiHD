@@ -6,6 +6,7 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
 {
     short is_reply;
     char buff[0xFF];
+    char *mark;
     uint16_t ether_type;
     struct rpi_eth_hdr *eth_hdr = (struct rpi_eth_hdr *) packet;
     struct rpi_arp_hdr *arp_hdr = (struct rpi_arp_hdr *) (packet + 14);
@@ -35,7 +36,8 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
 
         if ( is_reply )
         {
-            sprintf( buff, "Found host > %s -- %s\n", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ) );
+            mark = ( is_trusted_host( reply->src_hw ) == 0 ) ? "[T]" : "[NT]" ;
+            sprintf( buff, "Found host > %s -- %s %s\n", cnvrt_ip( reply->src_ip ), cnvrt_hw( reply->src_hw ), mark );
             notify_server( &sockfd, buff );
         }
         
@@ -83,6 +85,10 @@ void * rpi_arp_sniffer( void *conf )
     return NULL;
 }
 
+int is_trusted_host( uint8_t *hw )
+{
+    return 0;
+}
 
 int notify_server( int *sock, char *buff )
 {
