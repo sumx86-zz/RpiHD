@@ -14,7 +14,10 @@
 #include "net.h"
 
 // trusted entities list
-char **tlist;
+char **tlist = NULL;
+
+// trusted entities count
+short ntcount;
 
 struct rpi_eth_hdr
 {
@@ -48,7 +51,7 @@ extern void mssleep( float ms );
 extern void _rlog( rpi_log_t level, char *err );
 
 extern int fclines( FILE *fp );
-extern int fgetlines( FILE *fp, char **lines );
+extern char ** fgetlines( FILE *fp, short *nlines );
 
 extern int init_sock( char *errbuf );
 extern int init_connection( struct rpi_conf *conf, char *errbuf );

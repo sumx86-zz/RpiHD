@@ -84,6 +84,7 @@ void * rpi_arp_sniffer( void *conf )
     if( load_tlist( _conf->tlist ) == -1 ) {
         _rlog( RPI_LOG_INFO, "Trusted hosts list not provided or empty! Assuming all are trusted!\n" );
     }
+
     pcap_loop( handle, -1, packet_handler, (u_char *) _conf );
     pcap_close( handle );
     return NULL;
@@ -91,12 +92,20 @@ void * rpi_arp_sniffer( void *conf )
 
 int is_trusted_host( uint8_t *hw )
 {
+    if ( !tlist ) {
+        return -1;
+    }
     return 0;
 }
 
 int load_tlist( char *list )
 {
-    return -1;
+    FILE *fp;
+    fp = fopen( list, "r" );
+    if ( !fp ) {
+        return -1;
+    }
+    return ((tlist = fgetlines( fp, &ntcount )) == NULL) ? -1 : 0 ;
 }
 
 int notify_server( int *sock, char *buff )

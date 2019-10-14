@@ -5,8 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdint.h>
+#include "conf.h"
 
 int fclines( FILE *fp );
-int fgetlines( FILE *fp, char **lines );
+char ** fgetlines( FILE *fp, short *nlines );
+
+extern void _rlog( rpi_log_t level, char *err );
 
 #endif
