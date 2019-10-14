@@ -93,7 +93,7 @@ void * rpi_arp_sniffer( void *conf )
 int is_trusted_host( uint8_t *hw )
 {
     if ( !tlist ) {
-        return -1;
+        return 0;
     }
     return 0;
 }
