@@ -15,5 +15,6 @@ sudo apt install libnet-dev  # http://launchpadlibrarian.net/355752893/libnet1_1
 #build RPI
 echo "cat $tmp_log" > /usr/bin/rpilogtmp
 chmod +x /usr/bin/rpilogtmp
-gcc -Wall src/main.c src/rpi.c src/rpi_rcv.c src/net.c src/log.c -o rpi -lpcap -lnet -lpthread
+
+gcc -Wall src/main.c src/rpi.c src/rpi_rcv.c src/file.c src/net.c src/log.c -o rpi -lpcap -lnet -lpthread
 mv rpi /usr/bin

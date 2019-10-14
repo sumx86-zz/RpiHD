@@ -13,6 +13,9 @@
 #include "conf.h"
 #include "net.h"
 
+// trusted entities list
+char **tlist;
+
 struct rpi_eth_hdr
 {
     uint8_t hw_dst[ETH_ALEN];
@@ -33,10 +36,11 @@ struct rpi_arp_hdr
     uint8_t  dst_ip[4];
 };
 
-int    is_trusted_host( uint8_t *hw );
-int    notify_server( int *sock, char *buff );
-void * rpi_arp_sniffer( void *conf );
-void   packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_char *packet );
+int     load_tlist( char *list );
+int     is_trusted_host( uint8_t *hw );
+int     notify_server( int *sock, char *buff );
+void *  rpi_arp_sniffer( void *conf );
+void    packet_handler( u_char *args, const struct pcap_pkthdr *header, const u_char *packet );
 
 // external functions here
 extern void init_log( rpi_origin_t origin );

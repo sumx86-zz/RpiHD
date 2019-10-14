@@ -8,6 +8,7 @@ void rpi_usage( char *prog )
     fprintf( stderr, "-s [SERVER]\n" );
     fprintf( stderr, "-p [PORT]\n" );
     fprintf( stderr, "-t [ARP REQUEST TIME DELAY]\n" );
+    fprintf( stderr, "-l [ABSOLUTE PATH][LIST OF TRUSTED HOSTS] each line must be the entity's mac address\n" );
     exit( RPI_BAD );
 }
 
@@ -23,9 +24,10 @@ int main( int argc, char **argv )
     conf->device = NULL;
     conf->server = NULL;
     conf->port   = NULL;
+    conf->tlist  = NULL;
     delay        = NULL;
 
-    while ( (opt = getopt( argc, argv, "d:s:p:t:h" )) != -1 )
+    while ( (opt = getopt( argc, argv, "d:s:p:t:l:h" )) != -1 )
     {
         switch ( opt ) {
             case 'h':
@@ -38,6 +40,8 @@ int main( int argc, char **argv )
                 conf->port   = optarg; break;
             case 't':
                 delay        = optarg; break;
+            case 'l':
+                conf->tlist  = optarg; break;
             default:
                 rpi_usage( argv[0] );
         }

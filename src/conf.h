@@ -24,6 +24,7 @@ struct rpi_conf
     char *device;
     char *server;
     char *port;
+    char *tlist;
     float delay;
     uint8_t ip[4];
     uint8_t hw[6];
