@@ -17,6 +17,7 @@ int                  init_sock( char *errbuf );
 int                  init_connection( struct rpi_conf *conf, char *errbuf );
 struct sockaddr_in * server_state_listen( uint16_t port, char *errbuf );
 int                  normalize_ip( uint8_t *ip, uint8_t *dst );
+int                  normalize_hw( char *hw, uint8_t *dst );
 char               * cnvrt_ip( uint8_t *ip );
 char               * cnvrt_hw( uint8_t *hw );
 

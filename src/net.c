@@ -186,6 +186,12 @@ int normalize_ip( uint8_t *ip, uint8_t *dst )
     return RPI_BAD;
 }
 
+/* convert a colon separated mac address string to 6 byte array */
+int normalize_hw( char *hw, uint8_t *dst )
+{
+    return 0;
+}
+
 /* convert ip from 4-byte to a dotted string */
 char * cnvrt_ip( uint8_t *ip )
 {
