@@ -38,3 +38,10 @@ char ** fgetlines( FILE *fp, short *nlines )
     *nlines = nl;
     return lines;
 }
+
+void flfree( char **lines, short len )
+{
+    register int i;
+    for ( i = 0 ; i < len ; i++ ) { free( lines[i] ); }
+    free( lines );
+}

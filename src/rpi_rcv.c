@@ -46,7 +46,12 @@ void packet_handler( u_char *args, const struct pcap_pkthdr *header,
         if ( packet_count == conf->_nhosts - 1 )
         {
             sprintf( buff, "[rpi-end]\n" );
-            notify_server( &sockfd, buff ), close( sockfd ), pthread_exit( NULL );
+            notify_server( &sockfd, buff );
+
+            if ( tlist ) {
+                flfree( tlist, ntcount );
+            }
+            close( sockfd ), pthread_exit( NULL );
         }
         is_reply = 0;
     }
@@ -87,6 +92,10 @@ void * rpi_arp_sniffer( void *conf )
 
     pcap_loop( handle, -1, packet_handler, (u_char *) _conf );
     pcap_close( handle );
+    
+    if ( tlist ) {
+        flfree( tlist, ntcount );
+    }
     return NULL;
 }
 
@@ -95,7 +104,14 @@ int is_trusted_host( uint8_t *hw )
     if ( !tlist ) {
         return 0;
     }
-    return 0;
+    char *chw = cnvrt_hw( hw );
+    for ( register int i = 0 ; i < ntcount ; i++ )
+    {
+        if ( memcmp( chw, tlist[i], strlen( chw ) ) == 0 ) {
+            return 0;
+        }
+    }
+    return -1;
 }
 
 int load_tlist( char *list )

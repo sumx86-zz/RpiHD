@@ -8,8 +8,9 @@
 #include <stdint.h>
 #include "conf.h"
 
-int fclines( FILE *fp );
+int     fclines( FILE *fp );
 char ** fgetlines( FILE *fp, short *nlines );
+void    flfree( char **lines, short len );
 
 extern void _rlog( rpi_log_t level, char *err );
 

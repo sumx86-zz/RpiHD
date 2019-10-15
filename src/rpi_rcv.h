@@ -52,5 +52,6 @@ extern void _rlog( rpi_log_t level, char *err );
 
 extern int fclines( FILE *fp );
 extern char ** fgetlines( FILE *fp, short *nlines );
+extern void flfree( char **lines, short len );
 
 #endif
