@@ -1,8 +1,8 @@
 # RpiHD
 
 Raspberry Pi Host Discovery
-### Pi model is 3 B+ but it should work on others as well
-### Development platform was Linux mint. It should work on Ubuntu and Kali too
+### Pi model is 3 B+
+### Development platform was Linux mint.
 
 ## Intro
 * RpiHD consists of two programs:
